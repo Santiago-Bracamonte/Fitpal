@@ -31,7 +31,6 @@ def modificar_rutina_y_ejercicios(rutina_id, new_name, new_desc, new_duration, n
 
     ejercicios_actuales = rutina_ejercicio_dao.obtener_ejercicios_de_rutina(rutina_id)
 
-    # Paso 4: Eliminar asociaciones existentes de la rutina
     if not rutina_ejercicio_dao.eliminar_asociaciones_por_rutina(rutina_id):
 
         return False 

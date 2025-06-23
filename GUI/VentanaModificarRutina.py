@@ -9,7 +9,7 @@ from BLL.AsignacionRutinaBLL import asignar_rutina_a_cliente, desasignar_rutina_
 from BLL.EjercicioBLL import (
     crear_nuevo_ejercicio, modificar_ejercicio_existente,
     eliminar_ejercicio_existente, obtener_todos_los_ejercicios,
-    obtener_ejercicio_por_id # Asegúrate de importar este si lo usas en el DAO/BLL
+    obtener_ejercicio_por_id 
 )
 
 class VentanaModificarRutina(tk.Toplevel):
@@ -25,7 +25,7 @@ class VentanaModificarRutina(tk.Toplevel):
 
         tk.Label(self, text="Seleccionar Rutina a Modificar:").pack(pady=5)
         self.variable_rutinas = tk.StringVar(self)
-        self.todas_las_rutinas = obtener_listado_rutinas()  # BLL
+        self.todas_las_rutinas = obtener_listado_rutinas()  
         if not self.todas_las_rutinas:
             tk.Label(self, text="No hay rutinas para modificar.").pack()
             tk.Button(self, text="Cerrar", command=self._on_closing).pack(pady=10)
@@ -55,7 +55,7 @@ class VentanaModificarRutina(tk.Toplevel):
         self.lista_ejercicios = tk.Listbox(self, selectmode=tk.MULTIPLE, height=10, width=60)
         self.lista_ejercicios.pack(pady=5)
 
-        self.ejercicios_disponibles = obtener_todos_los_ejercicios()  # BLL
+        self.ejercicios_disponibles = obtener_todos_los_ejercicios()  
         self.id_ejercicio_a_indice = {ej.id_ejercicio: i for i, ej in enumerate(self.ejercicios_disponibles)}
         self.indice_a_id_ejercicio = {i: ej.id_ejercicio for i, ej in enumerate(self.ejercicios_disponibles)}
 
@@ -70,7 +70,6 @@ class VentanaModificarRutina(tk.Toplevel):
 
         self._cargar_detalles_rutina(self.variable_rutinas.get())
         
-        # Centrar la ventana
         self.update_idletasks()
         x = parent.winfo_x() + (parent.winfo_width() // 2) - (self.winfo_width() // 2)
         y = parent.winfo_y() + (parent.winfo_height() // 2) - (self.winfo_height() // 2)
@@ -83,7 +82,7 @@ class VentanaModificarRutina(tk.Toplevel):
 
     def _cargar_detalles_rutina(self, selected_name):
         selected_id = self.mapa_rutinas[selected_name]
-        routine_data = obtener_detalles_rutina_con_ejercicios(selected_id)  # BLL
+        routine_data = obtener_detalles_rutina_con_ejercicios(selected_id) 
 
         if routine_data:
             rutina = routine_data['rutina']
@@ -128,7 +127,7 @@ class VentanaModificarRutina(tk.Toplevel):
 
         if success:
             messagebox.showinfo("Éxito", "Rutina modificada con éxito.")
-            self.on_success_callback()  # Llama al callback para refrescar la lista
+            self.on_success_callback()  
             self._on_closing()
         else:
             messagebox.showerror("Error", "No se pudo modificar la rutina. Verifique los datos o si el nombre/duración ya existen en otra rutina.")

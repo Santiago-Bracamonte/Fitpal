@@ -52,7 +52,6 @@ class RutinaBLL:
             print(f"Error BLL (Rutina): Rutina con ID {id_rutina} no encontrada para actualizar.")
             return False
 
-        # Opcional: Verificar si el nuevo nombre ya está en uso por OTRA rutina
         check_rutina_nombre = self.rutina_dao.obtener_rutina_por_id(nombre)
         if check_rutina_nombre and check_rutina_nombre.id_rutina != id_rutina:
             print(f"Error BLL (Rutina): El nombre '{nombre}' ya está en uso por otra rutina.")
@@ -81,14 +80,9 @@ class RutinaBLL:
             print(f"Error BLL (Rutina): Rutina con ID {id_rutina} no encontrada para eliminar.")
             return False
             
-        # Opcional: Verificar si la rutina está asignada a algún cliente (lógica de asignaciones)
-        # Esto depende de tu BLL de asignaciones. Podrías llamar a asignaciones_bll.obtener_clientes_con_rutina_asignada(id_rutina)
-        # Si tiene clientes asignados, quizás no permitir la eliminación o avisar al usuario.
-
-        # Primero, eliminar todas las asociaciones de ejercicios para esta rutina
+       
         self.rutina_ejercicio_dao.eliminar_asociaciones_por_rutina(id_rutina)
         
-        # Luego, eliminar la rutina
         success = self.rutina_dao.eliminar_rutina(id_rutina)
         
         if success:
@@ -117,7 +111,6 @@ class RutinaBLL:
         if rutina:
             return rutina
 
-    # --- Métodos para la gestión de Ejercicios en Rutinas ---
 
     def obtener_detalles_rutina_con_ejercicios(self, id_rutina):
         """
@@ -148,7 +141,7 @@ class RutinaBLL:
             return False
 
         rutina_existente = self.rutina_dao.obtener_rutina_por_id(id_rutina)
-        ejercicio_existente = self.ejercicio_dao.obtener_ejercicio_por_id(id_ejercicio) # Asumiendo que EjercicioDAO tiene obtener_ejercicio_por_id
+        ejercicio_existente = self.ejercicio_dao.obtener_ejercicio_por_id(id_ejercicio)
 
         if not rutina_existente:
             print(f"Error BLL (Asociación): Rutina con ID {id_rutina} no encontrada.")
@@ -157,7 +150,6 @@ class RutinaBLL:
             print(f"Error BLL (Asociación): Ejercicio con ID {id_ejercicio} no encontrado.")
             return False
 
-        # El DAO ya verifica si la asociación existe, si devuelve None, es que ya existe o hubo error.
         id_asociacion = self.rutina_ejercicio_dao.asociar_ejercicio_a_rutina(id_rutina, id_ejercicio)
         
         if id_asociacion:
@@ -205,7 +197,7 @@ def obtener_detalles_rutina_con_ejercicios(id_rutina):
     return rutina_bll.obtener_detalles_rutina_con_ejercicios(id_rutina)
 
 def asociar_ejercicio_a_rutina(id_rutina, id_ejercicio):
-    return rutina_bll.asociar_ejercicio_a_rutina_bll(id_rutina, id_ejercicio) # Nota el _bll para evitar conflicto de nombres
+    return rutina_bll.asociar_ejercicio_a_rutina_bll(id_rutina, id_ejercicio) 
 
 def desasociar_ejercicio_de_rutina(id_rutina, id_ejercicio):
-    return rutina_bll.desasociar_ejercicio_de_rutina_bll(id_rutina, id_ejercicio) # Nota el _bll para evitar conflicto de nombres
+    return rutina_bll.desasociar_ejercicio_de_rutina_bll(id_rutina, id_ejercicio) 
