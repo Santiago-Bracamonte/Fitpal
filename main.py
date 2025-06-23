@@ -11,7 +11,7 @@ from GUI.DashboardEntrenador import DashboardEntrenador
 
 
 class FitPalApp:
-    def __init__(self, master):
+    def __init__(self, master: tk.Tk):
         self.master = master
         master.title("FitPal App - Iniciar Sesión / Registrarse")
         master.geometry("500x400")
@@ -37,7 +37,7 @@ class FitPalApp:
         self.master.grid_rowconfigure(0, weight=1)
         self.master.grid_columnconfigure(0, weight=1)
 
-    def show_frame(self, frame_name):
+    def show_frame(self, frame_name: str):
         frame = self.frames[frame_name]
         frame.tkraise()
 
@@ -159,11 +159,6 @@ class RegisterFrame(tk.Frame):
             messagebox.showerror("Error de Registro", "El email ya está registrado.")
 
 if __name__ == "__main__":
-    try:
         root = tk.Tk()
         app = FitPalApp(root)
         root.mainloop()
-    except Exception as e:
-        print(f"Ha ocurrido un error inesperado al iniciar la aplicación: {e}")
-        # Opcional: mostrar un messagebox de error
-        messagebox.showerror("Error de Aplicación", f"La aplicación ha encontrado un error y se cerrará: {e}")
