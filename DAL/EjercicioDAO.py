@@ -24,16 +24,16 @@ class Ejercicio:
                 self.series == other.series and
                 self.descripcion == other.descripcion)
 
-    def __hash__(self): # Necesario si vas a usar Ejercicio en sets o como claves de diccionario
+    def __hash__(self):
         return hash((self.id_ejercicio, self.nombre, self.tipo, self.repeticiones, self.series, self.descripcion))
 
 class EjercicioDAO:
-    def crear_ejercicio(self, nombre, tipo, repeticiones, series, descripcion): # <-- CAMBIADA LA FIRMA
+    def crear_ejercicio(self, nombre, tipo, repeticiones, series, descripcion): 
         conn = get_connection()
         cursor = conn.cursor()
         try:
             cursor.execute("INSERT INTO Ejercicio (nombre, tipo, repeticiones, series, descripcion) VALUES (?, ?, ?, ?, ?)",
-                           (nombre, tipo, repeticiones, series, descripcion)) # <-- Los parámetros individuales se usan directamente
+                           (nombre, tipo, repeticiones, series, descripcion)) 
             conn.commit()
             return cursor.lastrowid
         except Exception as e:
@@ -62,7 +62,7 @@ class EjercicioDAO:
             return Ejercicio(*row)
         return None
 
-    def obtener_todos_los_ejercicios(self): # O get_all, según como lo tengas nombrado
+    def obtener_todos_los_ejercicios(self): 
         conn = get_connection()
         cursor = conn.cursor()
         cursor.execute("SELECT id_ejercicio, nombre, tipo, repeticiones, series, descripcion FROM Ejercicio")
@@ -150,7 +150,7 @@ class RutinaEjercicioDAO:
             cursor.execute("SELECT COUNT(*) FROM Ejercicio")
             count = cursor.fetchone()[0]
 
-            if count == 0: # Solo insertar si la tabla está vacía
+            if count == 0: 
                 ejercicios_para_insertar = [
                     ("Press de Banca", "Pecho", 10, 4, "Ejercicio fundamental para el desarrollo del pecho, tríceps y hombros."),
                     ("Sentadilla", "Piernas", 8, 3, "Ejercicio compuesto para el tren inferior, fortalece cuádriceps, glúteos e isquiotibiales."),

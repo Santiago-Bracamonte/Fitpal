@@ -7,7 +7,7 @@ class Usuario:
         self.nombre = nombre
         self.apellido = apellido
         self.email = email
-        self.contrasena = contrasena # Considerar hashear contraseñas en la BLL/GUI antes de pasarlas a DAL
+        self.contrasena = contrasena 
         self.rol = rol
 
     def __str__(self):
@@ -21,7 +21,7 @@ class UsuarioDAO:
             cursor.execute("INSERT INTO Usuario (nombre, apellido, email, contrasena, rol) VALUES (?, ?, ?, ?, ?)",
                            (usuario.nombre, usuario.apellido, usuario.email, usuario.contrasena, usuario.rol))
             conn.commit()
-            return cursor.lastrowid # Retorna el ID del nuevo usuario
+            return cursor.lastrowid
         except sqlite3.IntegrityError:
             print("Error: El email ya está registrado.")
             return None

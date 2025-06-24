@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import call 
 from unittest.mock import patch, MagicMock
 from BLL.RutinasBLL import (
     crear_rutina_con_ejercicios,
@@ -189,10 +190,9 @@ class TestRutinaBLL(unittest.TestCase):
         expected_updated_rutina = Rutina(rutina_id, new_name, new_desc, new_duration)
         self.mock_rutina_dao.actualizar_rutina.assert_called_once_with(expected_updated_rutina)
         self.mock_rutina_ejercicio_dao.eliminar_asociaciones_por_rutina.assert_called_once_with(rutina_id)
-        from unittest.mock import call # Asegúrate de que 'call' está importado
         expected_calls = [
-        call(rutina_id, 1), # Se vuelve a añadir el ejercicio 1
-        call(rutina_id, 2)  # Se añade el nuevo ejercicio 2
+        call(rutina_id, 1), 
+        call(rutina_id, 2)  
     ]
         self.mock_rutina_ejercicio_dao.asociar_ejercicio_a_rutina.assert_has_calls(expected_calls, any_order=True)
         self.assertEqual(self.mock_rutina_ejercicio_dao.asociar_ejercicio_a_rutina.call_count, len(new_exercise_ids))

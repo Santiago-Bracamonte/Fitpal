@@ -1,4 +1,3 @@
-
 import tkinter as tk
 from tkinter import messagebox
 
@@ -41,7 +40,7 @@ class FitPalApp:
         frame = self.frames[frame_name]
         frame.tkraise()
 
-    def handle_login_success(self, user_info):
+    def manejo_inicio_sesion(self, user_info):
         self.current_user_info = user_info
         messagebox.showinfo("Login Exitoso", f"Bienvenido, {user_info['nombre']} ({user_info['rol']})!")
         
@@ -61,7 +60,7 @@ class FitPalApp:
 
     def _start_trainer_dashboard(self):
         dashboard_root = tk.Tk()
-        dashboard_root.geometry("1200x800")
+        dashboard_root.geometry("1000x600")
         dashboard_root.title("FitPal - Dashboard Entrenador")
         app = DashboardEntrenador(dashboard_root, self.current_user_info, self._reopen_main_window)
         dashboard_root.mainloop()
@@ -97,7 +96,7 @@ class LoginFrame(tk.Frame):
         user_info = login_usuario(email, password)
         
         if user_info:
-            self.controller.handle_login_success(user_info)
+            self.controller.manejo_inicio_sesion(user_info)
             self.email_entry.delete(0, tk.END)
             self.password_entry.delete(0, tk.END)
         else:

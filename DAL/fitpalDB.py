@@ -1,4 +1,3 @@
-# conexion_bd.py
 import sqlite3
 
 DATABASE_NAME = "fitpal.db"

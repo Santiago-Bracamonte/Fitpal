@@ -1,7 +1,7 @@
 import sqlite3
 from .fitpalDB import get_connection
-from .RutinaDAO import Rutina  # Asegúrate de que esta ruta sea correcta
-from .EjercicioDAO import Ejercicio # Asegúrate de que esta ruta sea correcta
+from .RutinaDAO import Rutina  
+from .EjercicioDAO import Ejercicio 
 
 class RutinaEjercicio:
     """
@@ -9,7 +9,7 @@ class RutinaEjercicio:
     No es un objeto que tenga lógica compleja, solo asocia IDs.
     """
     def __init__(self, id_rutina_ejercicio, fk_rutina, fk_ejercicio):
-        self.id_rutina_ejercicio = id_rutina_ejercicio # ID de la entrada en la tabla intermedia
+        self.id_rutina_ejercicio = id_rutina_ejercicio 
         self.fk_rutina = fk_rutina
         self.fk_ejercicio = fk_ejercicio
 
@@ -19,7 +19,7 @@ class RutinaEjercicio:
 class RutinaEjercicioDAO:
 
     def __init__(self):
-        pass # No se necesita inicialización especial aquí
+        pass 
 
     def asociar_ejercicio_a_rutina(self, fk_rutina, fk_ejercicio):
         """
@@ -29,18 +29,16 @@ class RutinaEjercicioDAO:
         conn = get_connection()
         cursor = conn.cursor()
         try:
-            # Primero, verificar si la asociación ya existe para evitar duplicados
             cursor.execute("SELECT id_rutina_ejercicio FROM Rutina_Ejercicio WHERE fk_rutina = ? AND fk_ejercicio = ?",
                            (fk_rutina, fk_ejercicio))
             if cursor.fetchone():
-                return None # Ya existe, no se inserta
+                return None
             
             cursor.execute("INSERT INTO Rutina_Ejercicio (fk_rutina, fk_ejercicio) VALUES (?, ?)",
                            (fk_rutina, fk_ejercicio))
             conn.commit()
             return cursor.lastrowid
         except sqlite3.IntegrityError as e:
-            # Esto captura errores si fk_rutina o fk_ejercicio no existen (debido a FKs)
             print(f"Error de integridad al asociar ejercicio a rutina: {e}")
             return None
         except Exception as e:
@@ -94,7 +92,6 @@ class RutinaEjercicioDAO:
 
             ejercicios_list = []
             for row in rows:
-                # Convertir cada tupla de la base de datos en un objeto Ejercicio
                 ejercicio_obj = Ejercicio(row[0], row[1], row[2], row[3], row[4], row[5])
                 ejercicios_list.append(ejercicio_obj)
             
@@ -102,7 +99,7 @@ class RutinaEjercicioDAO:
         except Exception as e:
             print(f"Error en obtener_ejercicios_de_rutina (DAO): {e}")
             conn.close()
-            return [] # Retorna una lista vacía en caso de error
+            return [] 
     
     def obtener_rutinas_de_ejercicio(self, id_ejercicio):
         """
@@ -128,7 +125,6 @@ class RutinaEjercicioDAO:
 
             rutinas_list = []
             for row in rows:
-                # Convertir cada tupla de la base de datos en un objeto Rutina
                 rutina_obj = Rutina(row[0], row[1], row[2], row[3])
                 rutinas_list.append(rutina_obj)
             
@@ -136,9 +132,9 @@ class RutinaEjercicioDAO:
         except Exception as e:
             print(f"Error en obtener_rutinas_de_ejercicio (DAO): {e}")
             conn.close()
-            return [] # Retorna una lista vacía en caso de error
+            return [] 
             
-    def eliminar_asociaciones_por_rutina(self, id_rutina): # <--- Solo espera id_rutina
+    def eliminar_asociaciones_por_rutina(self, id_rutina):
         conn = get_connection()
         cursor = conn.cursor()
         try:

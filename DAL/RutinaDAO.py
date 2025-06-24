@@ -13,13 +13,12 @@ class Rutina:
     def __eq__(self, other):
         if not isinstance(other, Rutina):
             return NotImplemented
-        # Comparamos todos los atributos relevantes
         return (self.id_rutina == other.id_rutina and
                 self.nombre == other.nombre and
                 self.descripcion == other.descripcion and
                 self.duracion == other.duracion)
 
-    def __hash__(self): # Necesario si vas a usar Rutina en sets o como claves de diccionario
+    def __hash__(self):
         return hash((self.id_rutina, self.nombre, self.descripcion, self.duracion))
 
     def __str__(self):
@@ -95,15 +94,13 @@ class RutinaDAO:
         try:
             cursor.execute("SELECT id_rutina, nombre, descripcion, duracion FROM Rutina WHERE nombre = ?", (nombre,))
             row = cursor.fetchone()
-            conn.close() # Cierra la conexión después de obtener el resultado
+            conn.close() 
 
             if row:
-                # Si se encuentra una fila, convierte la tupla en un objeto Rutina
                 return Rutina(row[0], row[1], row[2], row[3])
-            return None # Si no se encuentra ninguna fila
+            return None 
         except Exception as e:
             print(f"Error al obtener rutina por nombre: {e}")
-            # Asegúrate de que la conexión se cierre incluso si hay un error
             if conn:
                 conn.close()
             return None

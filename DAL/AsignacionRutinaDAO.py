@@ -24,7 +24,6 @@ class AsignacionRutinaDAO:
         conn = get_connection()
         cursor = conn.cursor()
         try:
-            # Modificar la sentencia INSERT para incluir fk_entrenador
             cursor.execute("INSERT INTO Asignacion_Rutina (fk_usuario, fk_rutina, fk_entrenador, fecha_asignado) VALUES (?, ?, ?, ?)",
                            (fk_usuario, fk_rutina, fk_entrenador, fecha_asignado)) 
             conn.commit()
@@ -38,11 +37,10 @@ class AsignacionRutinaDAO:
         finally:
             conn.close()
 
-    def obtener_rutinas_asignadas_a_usuario(self, fk_usuario, fk_rutina=None, fecha=None): # Considera hacer fk_rutina y fecha opcionales si no siempre se usan
+    def obtener_rutinas_asignadas_a_usuario(self, fk_usuario, fk_rutina=None, fecha=None): 
         conn = get_connection()
         cursor = conn.cursor()
         
-        # MODIFICACIÓN CLAVE EN EL SELECT: AÑADIR AR.fk_entrenador
         cursor.execute("""
             SELECT 
                 AR.id_asignacion_rutina, 
@@ -55,7 +53,7 @@ class AsignacionRutinaDAO:
             JOIN Rutina R ON AR.fk_rutina = R.id_rutina
             WHERE AR.fk_usuario = ?
             ORDER BY AR.fecha_asignado DESC
-        """, (fk_usuario,)) # El filtro solo usa fk_usuario
+        """, (fk_usuario,)) 
 
         rows = cursor.fetchall()
         conn.close()
@@ -64,8 +62,8 @@ class AsignacionRutinaDAO:
         for row in rows:
             
             
-            asignacion = AsignacionRutina(row[0], row[1], row[2], row[3], row[4]) # <--- ¡AHORA PASA fk_entrenador!
-            rutina = Rutina(row[2], row[5], row[6], row[7]) # Los índices de Rutina también cambian
+            asignacion = AsignacionRutina(row[0], row[1], row[2], row[3], row[4]) 
+            rutina = Rutina(row[2], row[5], row[6], row[7]) 
             resultados.append({'asignacion': asignacion, 'rutina': rutina})
         return resultados
 
@@ -127,7 +125,6 @@ class AsignacionRutinaDAO:
             
             assignments = []
             for row in cursor.fetchall():
-                # Adapta esto a tu objeto AsignacionRutina o diccionario
                 assignments.append({
                     "id_asignacion_rutina": row[0],
                     "fk_usuario": row[1],
@@ -137,12 +134,12 @@ class AsignacionRutinaDAO:
                     "nombre_rutina": row[5],
                     "descripcion_rutina": row[6],
                     "fecha_asignado": row[7],
-                    "fk_entrenador": row[8] # Asegúrate de mapear el nuevo campo
+                    "fk_entrenador": row[8] 
                 })
-            return assignments # Retorna una lista (posiblemente vacía)
+            return assignments
         except sqlite3.Error as e:
             print(f"Error en obtener_asignaciones_por_entrenador (DAO): {e}")
-            return [] # Retorna una lista vacía en caso de error para evitar NoneType
+            return [] 
         finally:
             conn.close()
 
@@ -179,12 +176,12 @@ class AsignacionRutinaDAO:
                     "nombre_rutina": row[5],
                     "descripcion_rutina": row[6],
                     "fecha_asignado": row[7],
-                    "fk_entrenador": row[8] # Mapea el nuevo campo
+                    "fk_entrenador": row[8] 
                 })
             return data
         except sqlite3.Error as e:
             print(f"Error en obtener_asignaciones_y_rutinas_por_cliente (DAO): {e}")
-            return [] # Retorna una lista vacía en caso de error
+            return [] 
         finally:
             conn.close()
 
