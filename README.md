@@ -32,8 +32,8 @@ FitPal ofrece un conjunto de funcionalidades clave para la gestión integral del
 Este proyecto se construye con las siguientes tecnologías principales:
 
 * **Python:** Lenguaje de programación principal.
-* **Tkinter (con `ttk`):** Para el desarrollo de la Interfaz de Usuario Gráfica (GUI) de escritorio, proporcionando un entorno interactivo y moderno.
-* **`unittest`:** Para las pruebas unitarias, asegurando la robustez y el correcto funcionamiento de la lógica de negocio. (Puedes mencionar Pytest si planeas migrar o si lo usas en otras partes).
+* **Tkinter (con ´ttk´):** Para el desarrollo de la Interfaz de Usuario Gráfica (GUI) de escritorio, proporcionando un entorno interactivo y moderno.
+* **unittest:** Para las pruebas unitarias, asegurando la robustez y el correcto funcionamiento de la lógica de negocio.
 * **Conceptos Clave:**
     * **Mocks:** Utilizados en las pruebas unitarias para aislar componentes y simular el comportamiento de dependencias externas (como la base de datos).
     * **Arquitectura en Capas (BLL, DAL, GUI):** Estructura del proyecto organizada en capas para una mejor modularidad, mantenibilidad y separación de responsabilidades.
